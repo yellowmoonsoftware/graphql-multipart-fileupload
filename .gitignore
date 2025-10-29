@@ -1,0 +1,19 @@
+# Maven / Java build
+/target/
+
+# IDE metadata
+.idea/
+*.iml
+*.ipr
+*.iws
+.classpath
+.project
+.settings/
+
+# macOS
+.DS_Store
+
+# Maven wrapper
+.mvn/
+mvnw
+mvnw.cmd
