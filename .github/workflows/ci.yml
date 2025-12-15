@@ -53,3 +53,50 @@ jobs:
           if-no-files-found: warn
           retention-days: 7
 
+      - name: JaCoCo coverage summary
+        if: always()
+        shell: bash
+        run: |
+          python - <<'PY'
+          import os
+          import xml.etree.ElementTree as ET
+
+          report = "target/site/jacoco/jacoco.xml"
+          if not os.path.exists(report):
+              print(f"JaCoCo XML not found at {report}")
+              raise SystemExit(0)
+
+          tree = ET.parse(report)
+          root = tree.getroot()
+
+          # Aggregate counters at report root (already totals everything)
+          counters = {c.attrib["type"]: (int(c.attrib["missed"]), int(c.attrib["covered"]))
+                      for c in root.findall("counter")}
+
+          def pct(missed, covered):
+              total = missed + covered
+              return (covered / total * 100.0) if total else 0.0
+
+          lines_m, lines_c = counters.get("LINE", (0, 0))
+          instr_m, instr_c = counters.get("INSTRUCTION", (0, 0))
+          branch_m, branch_c = counters.get("BRANCH", (0, 0))
+
+          line_pct = pct(lines_m, lines_c)
+          instr_pct = pct(instr_m, instr_c)
+          branch_pct = pct(branch_m, branch_c) if (branch_m + branch_c) else None
+
+          print("JaCoCo Coverage Summary")
+          print(f"  Lines:        {line_pct:.2f}% ({lines_c}/{lines_m+lines_c})")
+          print(f"  Instructions: {instr_pct:.2f}% ({instr_c}/{instr_m+instr_c})")
+          if branch_pct is not None:
+              print(f"  Branches:     {branch_pct:.2f}% ({branch_c}/{branch_m+branch_c})")
+
+          summary_path = os.environ.get("GITHUB_STEP_SUMMARY")
+          if summary_path:
+              with open(summary_path, "a", encoding="utf-8") as f:
+                  f.write("## JaCoCo Coverage Summary\n\n")
+                  f.write(f"- **Lines:** {line_pct:.2f}% ({lines_c}/{lines_m+lines_c})\n")
+                  f.write(f"- **Instructions:** {instr_pct:.2f}% ({instr_c}/{instr_m+instr_c})\n")
+                  if branch_pct is not None:
+                      f.write(f"- **Branches:** {branch_pct:.2f}% ({branch_c}/{branch_m+branch_c})\n")
+          PY
