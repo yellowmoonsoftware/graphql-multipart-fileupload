@@ -40,7 +40,7 @@ jobs:
             target/site/jacoco/**
             target/site/jacoco.xml
           if-no-files-found: warn
-          retention-days: 14
+          retention-days: 7
 
       - name: Upload Surefire reports
         if: always()
@@ -51,5 +51,5 @@ jobs:
             target/surefire-reports/**
             target/failsafe-reports/**
           if-no-files-found: warn
-          retention-days: 14
+          retention-days: 7
 
