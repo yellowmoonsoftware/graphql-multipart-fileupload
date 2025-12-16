@@ -22,9 +22,12 @@ jobs:
 
     steps:
       - name: Guard - required secrets present
-        if: ${{ secrets.CENTRAL_USERNAME == '' || secrets.CENTRAL_PASSWORD == '' || secrets.GPG_PASSPHRASE == '' || secrets.GPG_PRIVATE_KEY == '' }}
+        if: ${{ env.CENTRAL_USERNAME == '' || env.CENTRAL_PASSWORD == '' || env.MAVEN_GPG_PASSPHRASE == '' }}
         run: |
-          echo "One or more required secrets are missing (CENTRAL_USERNAME, CENTRAL_PASSWORD, GPG_PASSPHRASE, GPG_PRIVATE_KEY)."
+          echo "One or more required secrets are missing:"
+          echo "- CENTRAL_USERNAME"
+          echo "- CENTRAL_PASSWORD"
+          echo "- MAVEN_GPG_PASSPHRASE"
           exit 1
 
       - name: Checkout
