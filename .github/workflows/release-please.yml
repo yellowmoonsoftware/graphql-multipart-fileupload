@@ -12,6 +12,7 @@ permissions:
 
 jobs:
   release-please:
+    if: false
     runs-on: ubuntu-latest
     steps:
       - name: Create GitHub App Installation Token
