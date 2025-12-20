@@ -32,7 +32,7 @@
 - Run `mvn verify` locally when touching request parsing or WebFlux integration to ensure regression protection.
 
 ## Commit & Pull Request Guidelines
-- Use concise, imperative commit messages capped near 60 characters (e.g., `Fix auto configuration`, `Add UploadScalar test`), mirroring the existing history.
+- Use Conventional Commits (e.g., `feat: add upload scalar test`, `fix: auto configuration`) with concise, imperative subjects capped near 60 characters.
 - Squash or rebase before opening a PR so each commit represents a coherent change.
 - PRs should describe the functional impact, reference linked issues, and include test evidence or follow-up tasks; attach JSON/XML examples when altering request mapping.
 - Highlight backwards-incompatible changes and document new configuration properties in the PR description and README.
