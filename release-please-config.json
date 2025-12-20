@@ -3,7 +3,8 @@
   "packages": {
     ".": {
       "release-type": "maven",
-      "package-name": "graphql-multipart-fileupload"
+      "package-name": "graphql-multipart-fileupload",
+      "include-component-in-tag": false
     }
   }
 }
