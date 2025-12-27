@@ -13,7 +13,7 @@
 
     <groupId>com.yellowmoonsoftware</groupId>
     <artifactId>graphql-multipart-fileupload</artifactId>
-    <version>1.0.2-SNAPSHOT</version>
+    <version>1.0.2</version>
     <name>graphql-multipart-fileupload</name>
     <description>Spring Boot starter providing GraphQL multipart file upload support</description>
     <url>https://github.com/yellowmoonsoftware/graphql-multipart-fileupload</url>
