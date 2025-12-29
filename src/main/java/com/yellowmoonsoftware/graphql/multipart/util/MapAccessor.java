@@ -40,7 +40,7 @@ public class MapAccessor<T> {
      * @return value when type matches, supplier-provided default otherwise
      */
     @SuppressWarnings("unchecked")
-    public <U> U get(@NonNull T key, @NonNull final Supplier<U> defaultValueSupplier, final ParameterizedTypeReference<U> typeRef) {
+    public <U> U get(@NonNull T key, @NonNull final Supplier<? extends U> defaultValueSupplier, final ParameterizedTypeReference<U> typeRef) {
         final Object val = map.get(key);
         if (val == null && map.containsKey(key)) {
             return null;
