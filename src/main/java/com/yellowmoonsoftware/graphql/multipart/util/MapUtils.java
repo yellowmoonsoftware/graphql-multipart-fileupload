@@ -87,7 +87,7 @@ public class MapUtils {
          * @param <S> mapped right type
          * @return new {@link JoinedEntry} with both values mapped
          */
-        public <R, S> JoinedEntry<K, R, S> mapValues(final Function<T, R> leftMapper, final Function<U, S> rightMapper) {
+        public <R, S> JoinedEntry<K, R, S> mapValues(final Function<? super T, ? extends R> leftMapper, final Function<? super U, ? extends S> rightMapper) {
             return new JoinedEntry<>(this.key, leftMapper.apply(this.leftValue), rightMapper.apply(this.rightValue));
         }
     }
