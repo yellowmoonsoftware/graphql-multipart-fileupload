@@ -12,6 +12,15 @@ https://github.com/jaydenseric/graphql-multipart-request-spec
 This project is an independent implementation and is not affiliated
 with or endorsed by the specification authors.
 
+## Usage
+
+Include the starter in your project.
+
+Posts to the `/graphql` (by default - the handler is bound to the `spring.graphql.http.path` property) endpoint with 
+content type of `multipart/form-data`and accepting `application/json` or `application/graphql-response+json` will be 
+handled as multipart requests.  Files will be mapped as `FilePart` into variables in the GraphQL query as described in 
+the specification.
+
 ### Notable differences from the specification
 Batching of operations as described [here|https://github.com/jaydenseric/graphql-multipart-request-spec?tab=readme-ov-file#batching] 
 is currently not supported.
