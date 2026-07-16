@@ -11,7 +11,6 @@ import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
 import reactor.core.publisher.Mono;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,9 +27,8 @@ import static org.springframework.http.MediaType.APPLICATION_GRAPHQL_RESPONSE;
         /**
          * Supported media types for GraphQL responses produced by this handler.
          */
-        @SuppressWarnings("removal")
         public static final List<MediaType> SUPPORTED_MEDIA_TYPES =
-                Arrays.asList(APPLICATION_GRAPHQL_RESPONSE, MediaType.APPLICATION_JSON, MediaType.APPLICATION_GRAPHQL);
+                List.of(APPLICATION_GRAPHQL_RESPONSE, MediaType.APPLICATION_JSON);
 
         private final GraphQlMultipartDecoder graphQlMultipartDecoder;
         private final WebGraphQlHandler webGraphQlHandler;

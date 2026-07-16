@@ -1,17 +1,16 @@
 package com.yellowmoonsoftware.graphql.multipart.decoder;
 
-import com.jayway.jsonpath.*;
 import com.yellowmoonsoftware.graphql.multipart.GqlTestData;
-import com.yellowmoonsoftware.graphql.multipart.JsonPathTestConfig;
 import com.yellowmoonsoftware.graphql.multipart.MockFormFieldPart;
 import com.yellowmoonsoftware.graphql.multipart.util.ObjectGraphPath;
 import org.assertj.core.api.InstanceOfAssertFactories;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.http.codec.json.Jackson2JsonDecoder;
+import org.springframework.http.codec.json.JacksonJsonDecoder;
 import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
+import tools.jackson.core.type.TypeReference;
+import tools.jackson.databind.json.JsonMapper;
 
 import java.util.Map;
 import java.util.Set;
@@ -19,18 +18,13 @@ import java.util.Set;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class GraphQlMultipartJsonDecoderTest {
-    Jackson2JsonDecoder decoder;
+    JacksonJsonDecoder decoder;
 
     GraphQlMultipartJsonDecoder mpGqlJsonDecoder;
 
-    @BeforeAll
-    static void fixtureSetup() {
-        JsonPathTestConfig.integrateJackson();
-    }
-
     @BeforeEach
     void setup() {
-        decoder = new Jackson2JsonDecoder();
+        decoder = new JacksonJsonDecoder();
         mpGqlJsonDecoder = new GraphQlMultipartJsonDecoder(decoder);
     }
 
@@ -40,9 +34,10 @@ class GraphQlMultipartJsonDecoderTest {
                 new MockFormFieldPart(GraphQlMultipartPartKey.OPERATIONS.getKeyName(), GqlTestData.getTestOperationsJson()),
                 GraphQlMultipartPartKey.OPERATIONS.getTypeRef());
 
-        final DocumentContext opsDocCtx = JsonPath.parse(GqlTestData.getTestOperationsJson());
-        final String expectedQuery = opsDocCtx.read("$.query", String.class);
-        final Map<String, Object> expectedVars = opsDocCtx.read("$.variables", new TypeRef<>() { });
+        final Map<String, Object> expectedOperations = new JsonMapper().readValue(
+                GqlTestData.getTestOperationsJson(), new TypeReference<>() { });
+        final String expectedQuery = (String) expectedOperations.get("query");
+        final Map<String, Object> expectedVars = (Map<String, Object>) expectedOperations.get("variables");
 
         StepVerifier.create(actual)
                 .assertNext(ops -> {
@@ -62,8 +57,8 @@ class GraphQlMultipartJsonDecoderTest {
                 new MockFormFieldPart(GraphQlMultipartPartKey.MAP.getKeyName(), GqlTestData.getTestFileMapJson()),
                 GraphQlMultipartPartKey.MAP.getTypeRef());
 
-        final DocumentContext mapDocCtx = JsonPath.parse(GqlTestData.getTestFileMapJson());
-        final Map<String, Set<ObjectGraphPath>> expectedMap = mapDocCtx.read("$", new TypeRef<>() { });
+        final Map<String, Set<ObjectGraphPath>> expectedMap = new JsonMapper().readValue(
+                GqlTestData.getTestFileMapJson(), new TypeReference<>() { });
 
         StepVerifier.create(actual)
                 .assertNext(map -> {
