@@ -2,6 +2,13 @@
 
 Spring Boot starter for handling GraphQL multipart file uploads with WebFlux and Spring for GraphQL.
 
+## Compatibility
+
+| Library version | Spring Boot version | Minimum Java version |
+| --- | --- | --- |
+| 1.0.4 | 3.5.16 | 17 |
+| 2.0.0 | 4.1.0 | 17 |
+
 ## Specification
 
 This library implements the GraphQL multipart request specification

@@ -15,17 +15,22 @@ concurrency:
 
 jobs:
   build:
+    name: Build & test (Java ${{ matrix.java }})
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        java: [ "17", "21", "25" ]
 
     steps:
       - name: Checkout
         uses: actions/checkout@v7
 
-      - name: Set up Java 17
+      - name: Set up Java ${{ matrix.java }}
         uses: actions/setup-java@v5
         with:
           distribution: temurin
-          java-version: "17"
+          java-version: ${{ matrix.java }}
           cache: maven
 
       - name: Build & test
@@ -35,7 +40,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v7
         with:
-          name: jacoco-report
+          name: jacoco-report-java-${{ matrix.java }}
           path: |
             target/site/jacoco/**
             target/site/jacoco.xml
@@ -46,7 +51,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v7
         with:
-          name: surefire-reports
+          name: surefire-reports-java-${{ matrix.java }}
           path: |
             target/surefire-reports/**
             target/failsafe-reports/**

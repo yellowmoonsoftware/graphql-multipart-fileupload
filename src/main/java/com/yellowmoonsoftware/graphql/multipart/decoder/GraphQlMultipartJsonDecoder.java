@@ -18,7 +18,7 @@ import java.util.Map;
  * Default JSON-backed implementation of {@link AbstractGraphQlMultipartDecoder}.
  * </p>
  * <ul>
- * <li>Uses a Spring {@link Decoder} (typically `Jackson2JsonDecoder`) to read the `operations` and `map` parts of a
+ * <li>Uses a Spring {@link Decoder} (typically `JacksonJsonDecoder`) to read the `operations` and `map` parts of a
  * GraphQL multipart request.</li>
  * <li>Produces typed maps that the base class combines to attach files to variables and build the final GraphQL
  * request.</li>

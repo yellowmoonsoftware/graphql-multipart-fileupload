@@ -1,6 +1,5 @@
 package com.yellowmoonsoftware.graphql.multipart.config;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.yellowmoonsoftware.graphql.multipart.decoder.GraphQlMultipartDecoder;
 import com.yellowmoonsoftware.graphql.multipart.decoder.GraphQlMultipartJsonDecoder;
 import com.yellowmoonsoftware.graphql.multipart.GraphQlMultipartWebHandler;
@@ -10,11 +9,12 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.ObjectProvider;
-import org.springframework.boot.autoconfigure.graphql.GraphQlProperties;
+import org.springframework.boot.graphql.autoconfigure.GraphQlProperties;
 import org.springframework.graphql.server.WebGraphQlHandler;
-import org.springframework.http.codec.json.Jackson2JsonDecoder;
+import org.springframework.http.codec.json.JacksonJsonDecoder;
 import org.springframework.web.reactive.function.server.RouterFunction;
 import org.springframework.web.reactive.function.server.ServerResponse;
+import tools.jackson.databind.json.JsonMapper;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
@@ -27,9 +27,9 @@ class GraphQlMultipartFileUploadConfigTest {
     private final GraphQlMultipartFileUploadConfig config = new GraphQlMultipartFileUploadConfig();
 
     @Mock
-    ObjectProvider<Jackson2JsonDecoder> decoderProvider;
+    ObjectProvider<JacksonJsonDecoder> decoderProvider;
 
-    ObjectMapper objectMapper;
+    JsonMapper jsonMapper;
 
     @Mock
     GraphQlMultipartDecoder multipartDecoder;
@@ -41,11 +41,11 @@ class GraphQlMultipartFileUploadConfigTest {
     GraphQlMultipartWebHandler webHandler;
 
     @Mock
-    Jackson2JsonDecoder jacksonDecoder;
+    JacksonJsonDecoder jacksonDecoder;
 
     @BeforeEach
     void resetMocks() {
-        objectMapper = new ObjectMapper();
+        jsonMapper = new JsonMapper();
         reset(decoderProvider, multipartDecoder, webGraphQlHandler, webHandler, jacksonDecoder);
     }
 
@@ -53,7 +53,7 @@ class GraphQlMultipartFileUploadConfigTest {
     void createsMultipartDecoderUsingExistingDecoder() {
         when(decoderProvider.getIfAvailable(any())).thenReturn(jacksonDecoder);
 
-        final GraphQlMultipartDecoder decoder = config.graphQlMultipartDecoder(decoderProvider, objectMapper);
+        final GraphQlMultipartDecoder decoder = config.graphQlMultipartDecoder(decoderProvider, jsonMapper);
 
         assertThat(decoder).isInstanceOf(GraphQlMultipartJsonDecoder.class);
     }
@@ -61,11 +61,11 @@ class GraphQlMultipartFileUploadConfigTest {
     @Test
     void createsMultipartDecoderUsingFallback() {
         when(decoderProvider.getIfAvailable(any())).thenAnswer(invocation -> {
-            final java.util.function.Supplier<Jackson2JsonDecoder> supplier = invocation.getArgument(0);
+            final java.util.function.Supplier<JacksonJsonDecoder> supplier = invocation.getArgument(0);
             return supplier.get();
         });
 
-        final GraphQlMultipartDecoder decoder = config.graphQlMultipartDecoder(decoderProvider, objectMapper);
+        final GraphQlMultipartDecoder decoder = config.graphQlMultipartDecoder(decoderProvider, jsonMapper);
 
         assertThat(decoder).isInstanceOf(GraphQlMultipartJsonDecoder.class);
     }

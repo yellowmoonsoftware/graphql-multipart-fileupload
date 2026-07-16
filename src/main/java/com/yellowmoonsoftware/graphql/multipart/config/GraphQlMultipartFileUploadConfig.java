@@ -1,6 +1,5 @@
 package com.yellowmoonsoftware.graphql.multipart.config;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.yellowmoonsoftware.graphql.multipart.decoder.GraphQlMultipartDecoder;
 import com.yellowmoonsoftware.graphql.multipart.decoder.GraphQlMultipartJsonDecoder;
 import com.yellowmoonsoftware.graphql.multipart.GraphQlMultipartWebHandler;
@@ -9,16 +8,17 @@ import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
-import org.springframework.boot.autoconfigure.graphql.GraphQlProperties;
+import org.springframework.boot.graphql.autoconfigure.GraphQlProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.annotation.Order;
 import org.springframework.graphql.server.WebGraphQlHandler;
 import org.springframework.http.MediaType;
-import org.springframework.http.codec.json.Jackson2JsonDecoder;
+import org.springframework.http.codec.json.JacksonJsonDecoder;
 import org.springframework.web.reactive.function.server.RequestPredicates;
 import org.springframework.web.reactive.function.server.RouterFunction;
 import org.springframework.web.reactive.function.server.RouterFunctions;
 import org.springframework.web.reactive.function.server.ServerResponse;
+import tools.jackson.databind.json.JsonMapper;
 
 import static org.springframework.http.MediaType.MULTIPART_FORM_DATA;
 
@@ -32,17 +32,17 @@ import static org.springframework.http.MediaType.MULTIPART_FORM_DATA;
 public class GraphQlMultipartFileUploadConfig {
 
     /**
-     * Provide a {@link GraphQlMultipartDecoder} backed by {@link Jackson2JsonDecoder}.
-     * @param jsonDecoderProvider provider for Jackson2JsonDecoder
-     * @param objectMapper object mapper fallback
+     * Provide a {@link GraphQlMultipartDecoder} backed by {@link JacksonJsonDecoder}.
+     * @param jsonDecoderProvider provider for JacksonJsonDecoder
+     * @param jsonMapper JSON mapper fallback
      * @return configured multipart decoder
      */
     @Bean
     @ConditionalOnMissingBean
-    public GraphQlMultipartDecoder graphQlMultipartDecoder(final ObjectProvider<Jackson2JsonDecoder> jsonDecoderProvider,
-                                                           final ObjectMapper objectMapper) {
-        final Jackson2JsonDecoder jsonDecoder = jsonDecoderProvider.getIfAvailable(() -> new Jackson2JsonDecoder(objectMapper));
-        log.info("Configured GraphQlMultipartDecoder using Jackson2JsonDecoder for multipart GraphQL decoding.");
+    public GraphQlMultipartDecoder graphQlMultipartDecoder(final ObjectProvider<JacksonJsonDecoder> jsonDecoderProvider,
+                                                           final JsonMapper jsonMapper) {
+        final JacksonJsonDecoder jsonDecoder = jsonDecoderProvider.getIfAvailable(() -> new JacksonJsonDecoder(jsonMapper));
+        log.info("Configured GraphQlMultipartDecoder using JacksonJsonDecoder for multipart GraphQL decoding.");
         return new GraphQlMultipartJsonDecoder(jsonDecoder);
     }
 
