@@ -1,5 +1,16 @@
 # Changelog
 
+## [2.0.0](https://github.com/yellowmoonsoftware/graphql-multipart-fileupload/compare/v1.0.4...v2.0.0) (2026-07-16)
+
+
+### ⚠ BREAKING CHANGES
+
+* upgrade to Spring Boot 4.1.0
+
+### Features
+
+* upgrade to Spring Boot 4.1.0 ([1e56724](https://github.com/yellowmoonsoftware/graphql-multipart-fileupload/commit/1e5672479c655bad678e94d1a5524c861fe66324))
+
 ## [1.0.4](https://github.com/yellowmoonsoftware/graphql-multipart-fileupload/compare/v1.0.3...v1.0.4) (2026-07-16)
 
 
