@@ -1,9 +1,8 @@
 # Contributing to GraphQL Multipart File Upload Starter
 
 Thank you for taking the time to contribute. Bug reports, feature proposals,
-documentation improvements, tests, and code fixes are all welcome. Please keep
-all project interactions respectful, constructive, and focused on improving the
-project.
+documentation improvements, tests, and code fixes are all welcome. Participation
+in this project is governed by our [Code of Conduct](CODE_OF_CONDUCT.md).
 
 ## Before Opening an Issue
 
