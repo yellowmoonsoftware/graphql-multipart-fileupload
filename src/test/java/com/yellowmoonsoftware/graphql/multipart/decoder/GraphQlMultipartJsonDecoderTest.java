@@ -28,6 +28,7 @@ class GraphQlMultipartJsonDecoderTest {
         mpGqlJsonDecoder = new GraphQlMultipartJsonDecoder(decoder);
     }
 
+    @SuppressWarnings("unchecked")
     @Test
     void testDecodesOperations() {
         final Mono<Map<String, Object>> actual = mpGqlJsonDecoder.decodePart(
