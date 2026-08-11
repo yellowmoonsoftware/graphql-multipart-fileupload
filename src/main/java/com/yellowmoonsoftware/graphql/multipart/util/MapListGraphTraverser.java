@@ -94,6 +94,7 @@ public class MapListGraphTraverser<TKey> implements ObjectGraphTraverser {
      * @param key string key/index
      * @return traverser for nested value or null-object
      */
+    @Override
     public ObjectGraphTraverser dereference(final String key) {
         return MapListGraphTraverser.wrap(this.get(key));
     }

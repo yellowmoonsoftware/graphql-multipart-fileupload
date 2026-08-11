@@ -36,6 +36,7 @@ public class GraphQlMultipartJsonDecoder extends AbstractGraphQlMultipartDecoder
      * @param <T>     value type of the decoded map
      * @return {@link Mono} emitting the decoded map
      */
+    @Override
     @SuppressWarnings("unchecked")
     public <T> Mono<Map<String,T>> decodePart(@NonNull final Part part, @NonNull final ParameterizedTypeReference<Map<String, T>> typeRef) {
         log.trace("Decoding part {} as JSON into {}", part.name(), typeRef.getType());
