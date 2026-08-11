@@ -14,7 +14,7 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  build:
+  test:
     name: Build & test (Java ${{ matrix.java }})
     runs-on: ubuntu-latest
     strategy:
@@ -105,3 +105,16 @@ jobs:
                   if branch_pct is not None:
                       f.write(f"- **Branches:** {branch_pct:.2f}% ({branch_c}/{branch_m+branch_c})\n")
           PY
+
+  build:
+    name: build
+    if: ${{ always() }}
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Verify test matrix
+        env:
+          TEST_RESULT: ${{ needs.test.result }}
+        run: |
+          echo "Test matrix result: ${TEST_RESULT}"
+          test "${TEST_RESULT}" = "success"

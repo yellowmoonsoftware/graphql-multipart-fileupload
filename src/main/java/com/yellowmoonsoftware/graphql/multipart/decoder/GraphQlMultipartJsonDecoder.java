@@ -2,12 +2,12 @@ package com.yellowmoonsoftware.graphql.multipart.decoder;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.jspecify.annotations.NonNull;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.core.ResolvableType;
 import org.springframework.core.codec.Decoder;
 import org.springframework.http.MediaType;
 import org.springframework.http.codec.multipart.Part;
-import org.springframework.lang.NonNull;
 import reactor.core.publisher.Mono;
 
 import java.util.Map;
@@ -36,6 +36,7 @@ public class GraphQlMultipartJsonDecoder extends AbstractGraphQlMultipartDecoder
      * @param <T>     value type of the decoded map
      * @return {@link Mono} emitting the decoded map
      */
+    @Override
     @SuppressWarnings("unchecked")
     public <T> Mono<Map<String,T>> decodePart(@NonNull final Part part, @NonNull final ParameterizedTypeReference<Map<String, T>> typeRef) {
         log.trace("Decoding part {} as JSON into {}", part.name(), typeRef.getType());

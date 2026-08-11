@@ -6,10 +6,10 @@ import com.yellowmoonsoftware.graphql.multipart.util.MapListGraphTraverser;
 import com.yellowmoonsoftware.graphql.multipart.util.ObjectGraphPath;
 import graphql.com.google.common.collect.Maps;
 import lombok.extern.slf4j.Slf4j;
+import org.jspecify.annotations.NonNull;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.graphql.GraphQlRequest;
 import org.springframework.http.codec.multipart.Part;
-import org.springframework.lang.NonNull;
 import org.springframework.util.MultiValueMap;
 import reactor.core.publisher.Mono;
 

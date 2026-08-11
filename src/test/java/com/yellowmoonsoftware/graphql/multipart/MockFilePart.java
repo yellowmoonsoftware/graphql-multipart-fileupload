@@ -1,11 +1,11 @@
 package com.yellowmoonsoftware.graphql.multipart;
 
+import org.jspecify.annotations.NonNull;
 import org.springframework.core.io.buffer.DataBuffer;
 import org.springframework.core.io.buffer.DefaultDataBufferFactory;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.codec.multipart.FilePart;
-import org.springframework.lang.NonNull;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -24,14 +24,12 @@ public record MockFilePart(String filename, String name, HttpHeaders headers, Da
     }
 
     @Override
-    @NonNull
-    public Mono<Void> transferTo(@NonNull final Path dest) {
+    public @NonNull Mono<Void> transferTo(@NonNull final Path dest) {
         return Mono.empty();
     }
 
     @Override
-    @NonNull
-    public Flux<DataBuffer> content() {
+    public @NonNull Flux<DataBuffer> content() {
         return Flux.defer(() -> Flux.just(fileContent));
     }
 }

@@ -3,9 +3,9 @@ package com.yellowmoonsoftware.graphql.multipart.util;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import org.jspecify.annotations.NonNull;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.core.ResolvableType;
-import org.springframework.lang.NonNull;
 
 import java.util.Map;
 import java.util.function.Supplier;
