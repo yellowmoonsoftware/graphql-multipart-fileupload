@@ -4,8 +4,8 @@ import graphql.GraphQLContext;
 import graphql.execution.CoercedVariables;
 import graphql.language.Value;
 import graphql.schema.*;
+import org.jspecify.annotations.NonNull;
 import org.springframework.http.codec.multipart.FilePart;
-import org.springframework.lang.NonNull;
 
 import java.util.Locale;
 

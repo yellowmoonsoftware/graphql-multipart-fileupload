@@ -2,12 +2,12 @@ package com.yellowmoonsoftware.graphql.multipart.decoder;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.jspecify.annotations.NonNull;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.core.ResolvableType;
 import org.springframework.core.codec.Decoder;
 import org.springframework.http.MediaType;
 import org.springframework.http.codec.multipart.Part;
-import org.springframework.lang.NonNull;
 import reactor.core.publisher.Mono;
 
 import java.util.Map;
