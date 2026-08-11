@@ -1,0 +1,33 @@
+name: Feature request
+description: Propose an improvement to the library
+body:
+  - type: markdown
+    attributes:
+      value: Thanks for suggesting an improvement. Please focus on the problem and desired behavior rather than a specific implementation.
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem or use case
+      description: What are you trying to accomplish, and what prevents it today?
+    validations:
+      required: true
+  - type: textarea
+    id: desired-behavior
+    attributes:
+      label: Desired behavior
+      description: Describe the outcome you would like.
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+    validations:
+      required: false
+  - type: textarea
+    id: compatibility
+    attributes:
+      label: Compatibility impact
+      description: Note any expected API or behavioral compatibility impact, or state that none is expected.
+    validations:
+      required: true

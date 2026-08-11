@@ -1,0 +1,56 @@
+name: Bug report
+description: Report a reproducible problem with the library
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting a bug. Do not include sensitive vulnerability details here; use the repository's [private vulnerability reporting](https://github.com/yellowmoonsoftware/graphql-multipart-fileupload/security) instead.
+  - type: input
+    id: library-version
+    attributes:
+      label: Library version
+      placeholder: "2.0.0"
+    validations:
+      required: true
+  - type: input
+    id: spring-boot-version
+    attributes:
+      label: Spring Boot version
+      placeholder: "4.1.0"
+    validations:
+      required: true
+  - type: input
+    id: java-version
+    attributes:
+      label: Java version
+      placeholder: "17"
+    validations:
+      required: true
+  - type: textarea
+    id: actual-behavior
+    attributes:
+      label: What happened?
+      description: Describe the observed behavior.
+    validations:
+      required: true
+  - type: textarea
+    id: expected-behavior
+    attributes:
+      label: What did you expect?
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Reproduction
+      description: Provide minimal steps, a reproducer, or a representative multipart request. If unavailable, explain why.
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Relevant logs
+      description: Remove credentials and other sensitive information before submitting.
+      render: shell
+    validations:
+      required: false
