@@ -28,9 +28,7 @@ public class ObjectGraphPath {
      */
     @EqualsAndHashCode.Include
     private final String key;
-    /**
-     * Path segments leading to the leaf key.
-     */
+
     @EqualsAndHashCode.Include
     private final List<String> pathSegments;
 
@@ -41,6 +39,13 @@ public class ObjectGraphPath {
 
     @Getter(lazy = true, value = AccessLevel.PRIVATE)
     private final String toStringCache = buildToStringCache();
+
+    /**
+     * Path segments leading to the leaf key.
+     */
+    public List<String> pathSegments() {
+        return pathSegments;
+    }
 
     private String buildToStringCache() {
         final String segmentPath = String.join(".", this.pathSegments());
