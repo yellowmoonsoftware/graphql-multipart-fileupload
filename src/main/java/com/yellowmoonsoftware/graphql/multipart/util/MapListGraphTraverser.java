@@ -3,6 +3,7 @@ package com.yellowmoonsoftware.graphql.multipart.util;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.util.function.ThrowingFunction;
 
 import java.util.List;
 import java.util.Map;
@@ -121,7 +122,7 @@ public class MapListGraphTraverser<TKey> implements ObjectGraphTraverser {
     @SuppressWarnings({"unchecked", "rawtypes"})
     public static ObjectGraphTraverser wrap(final Object obj) {
         if (obj instanceof List l) {
-            return new MapListGraphTraverser<>(Integer::parseInt, i -> i < l.size() && i >= 0, l::get, (i, v) -> l.set(i, v));
+            return new MapListGraphTraverser<>(ThrowingFunction.of(Integer::parseInt), i -> i < l.size() && i >= 0, l::get, (i, v) -> l.set(i, v));
         }
 
         if (obj instanceof Map m) {
