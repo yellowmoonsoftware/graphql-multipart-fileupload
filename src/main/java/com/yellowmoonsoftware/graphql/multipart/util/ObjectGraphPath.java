@@ -28,7 +28,6 @@ public class ObjectGraphPath {
      */
     @EqualsAndHashCode.Include
     private final String key;
-
     /**
      * Path segments leading to the leaf key.
      */
