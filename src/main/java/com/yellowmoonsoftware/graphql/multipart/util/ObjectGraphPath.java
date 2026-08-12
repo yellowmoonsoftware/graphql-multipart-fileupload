@@ -32,6 +32,7 @@ public class ObjectGraphPath {
      * Path segments leading to the leaf key.
      */
     @EqualsAndHashCode.Include
+    // codeql[java/internal-representation-exposure]
     private final List<String> pathSegments;
 
     /**
