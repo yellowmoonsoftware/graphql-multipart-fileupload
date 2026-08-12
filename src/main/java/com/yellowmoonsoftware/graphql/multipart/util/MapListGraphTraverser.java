@@ -10,6 +10,7 @@ import java.util.Map;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 
+// codeql[java/unknown-javadoc-parameter]
 /**
  * <h2>MapListGraphTraverser</h2>
  * Generic {@link ObjectGraphTraverser} for nested {@link Map}/{@link List} graphs using string paths.
@@ -122,6 +123,8 @@ public class MapListGraphTraverser<TKey> implements ObjectGraphTraverser {
     @SuppressWarnings({"unchecked", "rawtypes"})
     public static ObjectGraphTraverser wrap(final Object obj) {
         if (obj instanceof List l) {
+            // Note: False positive - function is not invoked here but passed as a parameter and acknowledge as a throwing function
+            // codeql[java/uncaught-number-format-exception]
             return new MapListGraphTraverser<>(ThrowingFunction.of(Integer::parseInt), i -> i < l.size() && i >= 0, l::get, (i, v) -> l.set(i, v));
         }
 

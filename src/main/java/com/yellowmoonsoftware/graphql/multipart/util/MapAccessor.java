@@ -10,6 +10,7 @@ import org.springframework.core.ResolvableType;
 import java.util.Map;
 import java.util.function.Supplier;
 
+// codeql[java/unknown-javadoc-parameter]
 /**
  * <h2>MapAccessor</h2>
  * Type-safe accessor wrapper around a {@link Map}, providing optional defaults and runtime type checks.
