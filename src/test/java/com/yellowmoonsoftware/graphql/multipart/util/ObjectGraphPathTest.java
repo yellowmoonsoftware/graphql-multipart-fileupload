@@ -2,8 +2,10 @@ package com.yellowmoonsoftware.graphql.multipart.util;
 
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 class ObjectGraphPathTest {
 
@@ -43,8 +45,17 @@ class ObjectGraphPathTest {
     void pathSegmentsAreImmutable() {
         final ObjectGraphPath path = ObjectGraphPath.from("variables.input.file");
 
-        assertThatThrownBy(() -> path.pathSegments().add("new"))
-                .isInstanceOf(UnsupportedOperationException.class);
+        assertThat(path.pathSegments()).isUnmodifiable();
+    }
+
+    @Test
+    void constructorDefensivelyCopiesPathSegments() {
+        final List<String> sourceSegments = new ArrayList<>(List.of("variables", "input"));
+        final ObjectGraphPath path = new ObjectGraphPath("file", sourceSegments);
+
+        sourceSegments.add("changed");
+
+        assertThat(path.pathSegments()).containsExactly("variables", "input");
     }
 
     @Test

@@ -134,7 +134,7 @@ public class MapListGraphTraverser<TKey> implements ObjectGraphTraverser {
     @SuppressWarnings({"unchecked", "rawtypes"})
     public static ObjectGraphTraverser wrap(final Object obj) {
         if (obj instanceof List l) {
-            return new MapListGraphTraverser<>(ThrowingFunction.of(Integer::parseInt), i -> i < l.size() && i >= 0, l::get, (i, v) -> l.set(i, v));
+            return new MapListGraphTraverser<>(IntegerUtils::parseIntOrNull, i -> i < l.size() && i >= 0, l::get, (i, v) -> l.set(i, v));
         }
 
         if (obj instanceof Map m) {
