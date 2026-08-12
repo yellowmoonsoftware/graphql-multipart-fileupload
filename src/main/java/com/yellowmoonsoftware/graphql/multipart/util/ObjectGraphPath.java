@@ -32,7 +32,6 @@ public class ObjectGraphPath {
      * Path segments leading to the leaf key.
      */
     @EqualsAndHashCode.Include
-    // codeql[java/internal-representation-exposure]
     private final List<String> pathSegments;
 
     /**
@@ -60,7 +59,7 @@ public class ObjectGraphPath {
      */
     protected ObjectGraphPath(final String key, @NonNull final List<String> pathSegments) {
         this.key = key;
-        this.pathSegments = Collections.unmodifiableList(pathSegments);
+        this.pathSegments = List.copyOf(pathSegments);
         this.isValid = this.key != null;
     }
 

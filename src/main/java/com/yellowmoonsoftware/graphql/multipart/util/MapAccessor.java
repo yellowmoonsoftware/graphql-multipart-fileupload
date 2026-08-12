@@ -1,8 +1,6 @@
 package com.yellowmoonsoftware.graphql.multipart.util;
 
-import lombok.AccessLevel;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import org.jspecify.annotations.NonNull;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.core.ResolvableType;
@@ -10,22 +8,26 @@ import org.springframework.core.ResolvableType;
 import java.util.Map;
 import java.util.function.Supplier;
 
-// codeql[java/unknown-javadoc-parameter]
 /**
  * <h2>MapAccessor</h2>
  * Type-safe accessor wrapper around a {@link Map}, providing optional defaults and runtime type checks.
+ *
  * @param <T> key type
  */
-@RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class MapAccessor<T> {
     @Getter
     private final Map<T, ?> map;
 
+    private MapAccessor(final Map<T, ?> map) {
+        this.map = map;
+    }
+
     /**
      * Get a value by key when it matches the expected type; otherwise return null.
-     * @param key map key
+     *
+     * @param key     map key
      * @param typeRef expected type reference
-     * @param <U> expected return type
+     * @param <U>     expected return type
      * @return value when type matches, or null
      */
     public <U> U get(@NonNull T key, final ParameterizedTypeReference<U> typeRef) {
@@ -34,10 +36,11 @@ public class MapAccessor<T> {
 
     /**
      * Get a value by key, falling back to a supplier when the value is absent or of the wrong type.
-     * @param key map key
+     *
+     * @param key                  map key
      * @param defaultValueSupplier supplier invoked when missing/wrong type
-     * @param typeRef expected type reference
-     * @param <U> expected return type
+     * @param typeRef              expected type reference
+     * @param <U>                  expected return type
      * @return value when type matches, supplier-provided default otherwise
      */
     @SuppressWarnings("unchecked")
@@ -51,12 +54,13 @@ public class MapAccessor<T> {
         final Class<?> raw = resolvable.resolve();
 
         return raw != null && raw.isInstance(val)
-                ? (U)raw.cast(val)
+                ? (U) raw.cast(val)
                 : defaultValueSupplier.get();
     }
 
     /**
      * Wrap a map to get typed access helpers.
+     *
      * @param map underlying map
      * @param <U> key type
      * @return {@link MapAccessor} for the provided map

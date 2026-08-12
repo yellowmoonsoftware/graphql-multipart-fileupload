@@ -1,7 +1,5 @@
 package com.yellowmoonsoftware.graphql.multipart.util;
 
-import lombok.AccessLevel;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.function.ThrowingFunction;
 
@@ -10,25 +8,32 @@ import java.util.Map;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 
-// codeql[java/unknown-javadoc-parameter]
 /**
  * <h2>MapListGraphTraverser</h2>
  * Generic {@link ObjectGraphTraverser} for nested {@link Map}/{@link List} graphs using string paths.
+ *
  * @param <TKey> key type used to access elements in underlying {@link Map} ({@link String}) or {@link List} ({@link Integer}).
  */
 @Slf4j
-@RequiredArgsConstructor(access = AccessLevel.PROTECTED)
 public class MapListGraphTraverser<TKey> implements ObjectGraphTraverser {
     private final Function<String, TKey> keyConvert;
     private final Function<TKey, Boolean> hasKey;
     private final Function<TKey, Object> extractor;
     private final BiFunction<TKey, Object, Object> mutator;
 
+    protected MapListGraphTraverser(final ThrowingFunction<String, TKey> keyConvert, final ThrowingFunction<TKey, Boolean> hasKey, final Function<TKey, Object> extractor, final BiFunction<TKey, Object, Object> mutator) {
+        this.keyConvert = keyConvert;
+        this.hasKey = hasKey;
+        this.extractor = extractor;
+        this.mutator = mutator;
+    }
+
     /**
      * Set a value on the underlying collection using a string key.
-     * @param key string key/index
+     *
+     * @param key   string key/index
      * @param value value to set
-     * @param <T> value type
+     * @param <T>   value type
      * @return value set or null if key invalid
      */
     @Override
@@ -36,13 +41,14 @@ public class MapListGraphTraverser<TKey> implements ObjectGraphTraverser {
     public <T> T set(final String key, final T value) {
         final TKey typedKey = tryKeyAccess(key);
         if (typedKey != null) {
-            return (T)mutator.apply(typedKey, value);
+            return (T) mutator.apply(typedKey, value);
         }
         return null;
     }
 
     /**
      * Get a value from the underlying collection using a string key.
+     *
      * @param key string key/index
      * @param <T> expected type
      * @return value or null if missing/invalid key
@@ -52,33 +58,35 @@ public class MapListGraphTraverser<TKey> implements ObjectGraphTraverser {
     public <T> T get(final String key) {
         final TKey typedKey = tryKeyAccess(key);
         if (typedKey != null) {
-            return (T)extractor.apply(typedKey);
+            return (T) extractor.apply(typedKey);
         }
         return null;
     }
 
     /**
      * Set a value using a multi-segment {@link ObjectGraphPath}, traversing maps/lists as needed.
-     * @param path parsed path
+     *
+     * @param path  parsed path
      * @param value value to set
-     * @param <T> value type
+     * @param <T>   value type
      * @return value set or null if path invalid
      */
     @Override
     public <T> T set(final ObjectGraphPath path, T value) {
         log.trace("Setting value [{}] at path: {}", value, path);
         return path.pathSegments()
-                    .stream()
-                    .reduce(this,
-                            ObjectGraphTraverser::dereference,
-                            ExtendedBinaryOperator.firstArg())
-                    .set(path.key(), value);
+                .stream()
+                .reduce(this,
+                        ObjectGraphTraverser::dereference,
+                        ExtendedBinaryOperator.firstArg())
+                .set(path.key(), value);
     }
 
     /**
      * Get a value using a multi-segment {@link ObjectGraphPath}, traversing maps/lists as needed.
+     *
      * @param path parsed path
-     * @param <T> expected type
+     * @param <T>  expected type
      * @return value or null if missing
      */
     @Override
@@ -93,6 +101,7 @@ public class MapListGraphTraverser<TKey> implements ObjectGraphTraverser {
 
     /**
      * Dereference a nested node by string key and wrap it as a traverser.
+     *
      * @param key string key/index
      * @return traverser for nested value or null-object
      */
@@ -103,6 +112,7 @@ public class MapListGraphTraverser<TKey> implements ObjectGraphTraverser {
 
     /**
      * Attempt to convert and validate a string key for access.
+     *
      * @param path string path segment
      * @return typed key when valid, otherwise null
      */
@@ -117,19 +127,18 @@ public class MapListGraphTraverser<TKey> implements ObjectGraphTraverser {
 
     /**
      * Wrap an object into a traverser: Map/List supported, otherwise null-object.
+     *
      * @param obj object to wrap
      * @return traverser for Map/List or {@link NullObjectGraphTraverser} otherwise
      */
     @SuppressWarnings({"unchecked", "rawtypes"})
     public static ObjectGraphTraverser wrap(final Object obj) {
         if (obj instanceof List l) {
-            // Note: False positive - function is not invoked here but passed as a parameter and acknowledge as a throwing function
-            // codeql[java/uncaught-number-format-exception]
             return new MapListGraphTraverser<>(ThrowingFunction.of(Integer::parseInt), i -> i < l.size() && i >= 0, l::get, (i, v) -> l.set(i, v));
         }
 
         if (obj instanceof Map m) {
-            return new MapListGraphTraverser<>(Function.identity(), m::containsKey, m::get, (k, v) -> m.put(k, v));
+            return new MapListGraphTraverser<>(k -> k, m::containsKey, m::get, (k, v) -> m.put(k, v));
         }
 
         return NullObjectGraphTraverser.INSTANCE;
