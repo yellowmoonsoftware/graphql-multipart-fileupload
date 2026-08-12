@@ -21,7 +21,7 @@ public class MapListGraphTraverser<TKey> implements ObjectGraphTraverser {
     private final Function<TKey, Object> extractor;
     private final BiFunction<TKey, Object, Object> mutator;
 
-    protected MapListGraphTraverser(final Function<String, TKey> keyConvert, final Function<TKey, Boolean> hasKey, final Function<TKey, Object> extractor, final BiFunction<TKey, Object, Object> mutator) {
+    protected MapListGraphTraverser(final ThrowingFunction<String, TKey> keyConvert, final ThrowingFunction<TKey, Boolean> hasKey, final Function<TKey, Object> extractor, final BiFunction<TKey, Object, Object> mutator) {
         this.keyConvert = keyConvert;
         this.hasKey = hasKey;
         this.extractor = extractor;
@@ -139,7 +139,7 @@ public class MapListGraphTraverser<TKey> implements ObjectGraphTraverser {
         }
 
         if (obj instanceof Map m) {
-            return new MapListGraphTraverser<>(Function.identity(), m::containsKey, m::get, (k, v) -> m.put(k, v));
+            return new MapListGraphTraverser<>(k -> k, m::containsKey, m::get, (k, v) -> m.put(k, v));
         }
 
         return NullObjectGraphTraverser.INSTANCE;
