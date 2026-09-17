@@ -32,6 +32,14 @@ the specification.
 Batching of operations as described [here|https://github.com/jaydenseric/graphql-multipart-request-spec?tab=readme-ov-file#batching] 
 is currently not supported.
 
+## Dependency updates
+
+[Dependabot](.github/dependabot.yml) checks Maven dependencies and plugins in `pom.xml`
+and GitHub Actions versions every Monday. It opens individual update PRs, with a limit
+of five open version-update PRs per ecosystem, using `chore(deps)` commit titles.
+The existing CI workflow builds and tests each PR on Java 17, 21, and 25.
+Version updates start once the configuration is merged into the default branch.
+
 ## License
 Licensed under the Apache License, Version 2.0.
 
