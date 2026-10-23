@@ -90,6 +90,7 @@ class GraphQlMultipartWebHandlerTest {
 
         when(multipartDecoder.decode(multipartDataCaptor.capture()))
                 .thenReturn(Mono.just(graphQlRequest));
+        when(multipartDecoder.decodePayload(any())).thenCallRealMethod();
 
         when(webGraphQlResponse.toMap()).thenReturn(fakeWebGqlResponseData);
         when(webGraphQlResponse.getResponseHeaders()).thenReturn(new HttpHeaders());

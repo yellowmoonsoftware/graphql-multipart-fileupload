@@ -72,7 +72,7 @@ public class ObjectGraphPath {
     public static ObjectGraphPath from(final String path) {
         final List<String> segments = Optional.ofNullable(path)
                 .filter(p -> !p.isEmpty())
-                .map(p -> Lists.newArrayList(PERIOD.split(p)))
+                .map(p -> Lists.newArrayList(PERIOD.split(p, -1)))
                 .orElse(Lists.newArrayList());
 
         final String key = !segments.isEmpty() ? segments.remove(segments.size() - 1) : null;
