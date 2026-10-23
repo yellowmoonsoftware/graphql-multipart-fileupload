@@ -4,10 +4,18 @@ Spring Boot starter for handling GraphQL multipart file uploads with WebFlux and
 
 ## Compatibility
 
-| Library version | Spring Boot version | Minimum Java version |
+| Library release line | Spring Boot line | Minimum Java version |
 | --- | --- | --- |
-| 1.0.4 | 3.5.16 | 17 |
-| 2.0.0 | 4.1.0 | 17 |
+| 1.x | 3.5.x | 17 |
+| 2.x | 4.1.x | 17 |
+
+The matrix groups releases by their Spring Boot and Java baselines. Add a new row
+when a baseline changes; individual patch releases do not need separate rows.
+Exact Spring Boot dependency versions are recorded in each release's `pom.xml`,
+and release-specific changes are documented in the [changelog](CHANGELOG.md).
+
+Version **2.1.0** introduces operation batching and uses Spring Boot **4.1.1**.
+The current 2.x code is verified in CI on Java **17, 21, and 25**.
 
 ## Specification
 
