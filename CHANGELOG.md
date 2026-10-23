@@ -1,5 +1,17 @@
 # Changelog
 
+## [2.1.0](https://github.com/yellowmoonsoftware/graphql-multipart-fileupload/compare/v2.0.1...v2.1.0) (2026-10-23)
+
+
+### Features
+
+* support batched multipart uploads ([#40](https://github.com/yellowmoonsoftware/graphql-multipart-fileupload/issues/40)) ([5072aa3](https://github.com/yellowmoonsoftware/graphql-multipart-fileupload/commit/5072aa37692ead9361eaa63c3c33957a732fcaec))
+
+
+### Documentation
+
+* group compatibility matrix by release line ([#42](https://github.com/yellowmoonsoftware/graphql-multipart-fileupload/issues/42)) ([a1acc8b](https://github.com/yellowmoonsoftware/graphql-multipart-fileupload/commit/a1acc8be1fa31f71cd0950f6f0bb85d1b069ccf7))
+
 ## [2.0.1](https://github.com/yellowmoonsoftware/graphql-multipart-fileupload/compare/v2.0.0...v2.0.1) (2026-08-12)
 
 
